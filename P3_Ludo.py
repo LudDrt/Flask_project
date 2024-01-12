@@ -10,6 +10,8 @@ from PIL import Image
 from io import BytesIO
 from json import dumps
 import cv2
+import plotly
+import plotly.express as px
 
 UPLOAD_FOLDER = 'C:\\Users\\Simplon\\Documents\\Simplon\\Flask_project\\files_upload'
 ALLOWED_EXTENSIONS = {'csv', 'xls', 'xlsx'}
@@ -132,7 +134,16 @@ def list_news():
             return render_template("list_news.html", reponse_news = html)
     return render_template("list_news.html")
 
-#Page pour l'nalyse de fichiers CSV et Excel
+#Page pour l'affichage de graphiques interactifs
+@MyApp.route("/plotly", methods=["GET", "POST"])
+def plot():
+    df = px.data.gapminder()
+    fig = px.scatter(df.query("year==2007"), x="gdpPercap", y="lifeExp",
+                     size="pop", color="continent", hover_name="country", log_x=True, size_max=60)
+    graphJSON = dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template("plotly.html", plot = graphJSON)
+
+#Page pour l'analyse de fichiers CSV et Excel
 MyApp.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):

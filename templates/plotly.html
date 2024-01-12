@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %}Plots{% endblock %}
+
+{% block header %}Graphique interactif{% endblock %}
+
+{% block content %}
+<div class="chart" id="bargraph">
+    <script>
+        var graphs = {{ plot | safe }};
+        Plotly.plot('bargraph', graphs, {});
+    </script>
+</div>
+{% endblock %}

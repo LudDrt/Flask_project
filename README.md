@@ -1,6 +1,7 @@
 # Flask_project
 Flask based api for:
 - database integration (selecting, inserting)
+- plotting interactive graphics
 - api requesting (https://devapi.ai) and results displaying
 - image recognition using a ML model trained on MNIST dataset
 
