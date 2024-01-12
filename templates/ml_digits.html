@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block title %}ML{% endblock %}
+
+{% block header %}Machine Learning : les chiffres{% endblock %}
+
+{% block content %}
+    {% if message %}
+        <div class="subnav"><ul>
+            <li onclick="show('file_upload')">Reconnaissance d'image</li>
+            <li onclick="show('drawing')">Reconnaissance de dessin</li>
+        </ul></div>
+        <div id="queryselector">
+            <div id="file_upload">
+                <h3>Reconnaissance d'image</h3>
+                <table>
+                    <tr>
+                        <td>
+                            <form action="/digits" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="action" value="predict_img" />
+                                <label for="image">Charger une image à identifier :</label><br>
+                                <input type="file" name="image" id="image" /><br>
+                                <input type="submit" value="Lancer la reconnaissance" />
+                            </form>
+                        </td>
+                        <td>
+                            {% if objects %}
+                                <h3>Image chargée :</h3>
+                                <img src="data:image/jpeg;base64,{{ objects[0] }}" id="img-upload" alt="img_data" />
+                                <p>Prédiction du modèle : {{ objects[1] }}</p>
+                                <p>Probabilité : {{ objects[2] }}</p>
+                            {% endif %}        
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="drawing" style="display: none;">
+                <h3>Reconnaissance de dessin</h3>
+                <table>
+                    <tr>
+                        <td><canvas id="dessin" width="175" height="175">Not supported</canvas></td>
+                        <td>
+                            Line width : <select id="selWidth">
+                                <option value="11">11</option>
+                                <option value="13">13</option>
+                                <option value="15">15</option>
+                                <option value="17" selected="selected">17</option>
+                                <option value="19">19</option>
+                                <option value="21">21</option>
+                            </select><br>
+                            <button onclick="sendImage(); return false;">Lancer la reconnaissance</button>
+                            <button onclick="clearArea(); return false;">Effacer</button>
+                        </td>
+                        <td><div id="prediction"></div><div id="probabilite"></div></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p>Aucun modèle de reconnaissance d'image n'a été trouvé.<br>
+        Vous pouvez entrainer un nouveaumodèle :</p>
+        <form action="/digits" method="POST">
+            <input type="hidden" name="action" value="train" />
+            <input type="radio" name="reglog" id="reglog" checked /><label for="reglog">Régression logistique</label>
+            <input type="radio" name="reglin" id="reglin" disabled /><label for="reglin">Régression linéaire</label>
+            <input type="radio" name="randonF" id="randonF" disabled /><label for="randonF">Random Forest</label>
+            <input type="button" value="Entrainer !" />
+        </form>
+    {% endif %}
+{% endblock %}

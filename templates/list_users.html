@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block header %}Liste des utilisateurs{% endblock %}
+
+{% block content %}
+<table border="1" class="bordered_table">
+    <tr><th>Nom</th><th>Prénom</th><th>Genre</th><th>Pseudo</th></tr>
+    {% for user in object %}
+        <tr><td>{{ user[0] }}</td><td>{{ user[1] }}</td><td>{{ user[2] }}</td><td>{{ user[3] }}</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,60 @@
+body
+{
+    margin: 0px;
+    font-size: 13px;
+	font-family: Verdana, Tahoma, sans-serif;
+}
+h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
+a { color: #377ba8; }
+
+nav { background: lightgray; display: flex; align-items: center; padding: 0 0.5rem; }
+nav h1 { flex: auto; margin: 0; }
+nav h1 a { text-decoration: none; padding: 0.25rem 0.5rem; }
+nav ul  { display: flex; list-style: none; margin: 0; padding: 0; }
+nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
+
+.content { padding: 0 1rem 1rem; }
+.content > header { border-bottom: 1px solid lightgray; margin-bottom: 5px; display: flex; align-items: flex-end; }
+.content > header h1 { flex: auto; margin: 1rem 0 0.25rem 0; }
+.flash { margin: 1em 0; padding: 1em; border: 1px solid #377ba8; }
+.message { background: #cae6f6; }
+.error { background: #fa8989; }
+.success { background: #9ffda2; }
+.post > header { display: flex; align-items: flex-end; font-size: 0.85em; }
+.post > header > div:first-of-type { flex: auto; }
+.post > header h1 { font-size: 1.5em; margin-bottom: 0; }
+.post .about { color: slategray; font-style: italic; }
+.post .body { white-space: pre-line; }
+.content:last-child { margin-bottom: 0; }
+.content form { margin: 1em 0; }
+.content label { font-weight: bold; margin-bottom: 0.5em; }
+.content input, .content textarea { margin-bottom: 1em; }
+.content textarea { min-height: 12em; resize: vertical; }
+input.danger { color: #cc2f2e; }
+input[type=text] { min-width: 30em; }
+input[type=submit] { align-self: start; min-width: 10em; }
+
+.accueil
+{
+    width: 200px;
+    height: 100px;
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red); 
+    text-align: center;
+    color: white;
+}
+
+.red { color: red; }
+.green { color: green; }
+
+.data, .bordered_table
+{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.subnav { background: rgb(172, 243, 252); display: flex; align-items: center; padding: 0 0.5rem; max-width: 400px;}
+.subnav ul { display: flex; list-style: none; margin: 0; padding: 0; }
+.subnav ul li { display: block; padding: 0.5rem; }
+.subnav ul li:hover { font-weight: bold; cursor: pointer; }
+
+#dessin { border: 2px solid; background-color: black; }

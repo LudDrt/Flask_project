@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block header %}Gestion des utilisateurs{% endblock %}
+
+{% block content %}
+    <div>Saisissez les informations puis validez</div>
+    <form action="/users" method="POST">
+        <input type="text" name="firstname" placeholder="Prénom" required /><br>
+        <input type="text" name="lastname" placeholder="Nom" required /><br>
+        <input type="radio" name="gender" id="female" value="female" required /><label for="female">Femme</label>
+        <input type="radio" name="gender" id="male" value="male" required /><label for="male">Homme</label><br>
+        <input type="text" name="pseudo" placeholder="Pseudonyme" required /><br>
+        <input type="submit" value="Valider" />
+    </form>{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <title>Flask - {% block title %}{% endblock %}</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.jpg') }}">
+    <script src="{{url_for('static', filename='display.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<nav>
+    <ul>
+        <li><a href="{{ url_for('accueil')}}">Accueil</a></li>
+        <li><a href="{{ url_for('users')}}">Créer un utilisateur</a></li>
+        <li><a href="{{ url_for('list_users')}}">Voir les utilisateurs</a></li>
+        <li><a href="{{ url_for('list_news')}}">Voir les news d'investissements</a></li>
+        <li><a href="{{ url_for('files_stat')}}">Infos fichiers</a></li>
+        <li><a href="{{ url_for('digits')}}">Reconnaissance de chiffres</a></li>
+    </ul>
+</nav>
+<body class="content">
+    <header>
+        <h1>{% block header %}{% endblock %}</h1>
+    </header>
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</body>

@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}News{% endblock %}
+
+{% block header %}Dernières actualités{% endblock %}
+
+{% block content %}
+    <form action="/list_news" method="POST">
+        <input type="hidden" name="action" value="search" />
+        <label for="company">Entrer l'entreprise recherchée :</label>
+        <input type="text" name="company" id="company" />
+        <input type="submit" value="Rechercher" />
+    </form>
+    <div>{{ reponse_search | safe }}</div>
+    <div>{{ reponse_news | safe }}</div>
+{% endblock %}
