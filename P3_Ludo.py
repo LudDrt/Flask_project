@@ -11,7 +11,7 @@ from io import BytesIO
 from json import dumps
 import cv2
 
-UPLOAD_FOLDER = 'C:\\Users\\Simplon\\Documents\\Simplon\\DataAnalystIA\\Flask\\5_Projet_P3\\files_upload'
+UPLOAD_FOLDER = 'C:\\Users\\Simplon\\Documents\\Simplon\\Flask_project\\files_upload'
 ALLOWED_EXTENSIONS = {'csv', 'xls', 'xlsx'}
 
 MyApp = Flask(__name__)
@@ -154,10 +154,10 @@ def files_stat():
             print(extension)
             if extension == ".csv":
                 df = pd.read_csv(filename)
-                return render_template("files_stat.html", tables=[df.describe().T.to_html(classes='data', index = True, justify = 'left')], titles=df.columns.values)
+                return render_template("files_stat.html", tables=[df.describe().T.to_html(classes='data', index = True, justify = 'left')])
             elif extension == ".xls" or extension == ".xlsx":
                 df = pd.read_excel(filename)
-                return render_template("files_stat.html", tables=[df.head(10).to_html(classes='data', index = False, justify = 'left')], titles=df.columns.values)
+                return render_template("files_stat.html", tables=[df.head(10).to_html(classes='data', index = False, justify = 'left')])
             else:
                 return render_template("files_stat.html", message = "Erreur de lecture du fichier")
         else:
