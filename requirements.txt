@@ -1,0 +1,11 @@
+Flask
+numpy
+pandas
+requests
+opencv-python
+plotly
+Pillow
+scikit-learn
+mysql-connector-python
+keras
+tensorflow

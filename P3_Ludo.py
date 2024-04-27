@@ -2,18 +2,18 @@ from flask import Flask, flash, render_template, request
 from database import get_db
 import numpy as np
 import pandas as pd
-import requests, os, re, base64, pickle
+import requests, os, re, base64, pickle, cv2, plotly
 from werkzeug.utils import secure_filename
 from keras.datasets import mnist
 from sklearn.linear_model import LogisticRegression
 from PIL import Image
 from io import BytesIO
 from json import dumps
-import cv2
-import plotly
 import plotly.express as px
 
-UPLOAD_FOLDER = 'C:\\Users\\Simplon\\Documents\\Simplon\\Flask_project\\files_upload'
+working_dir = os.path.realpath(os.path.dirname(__file__))
+UPLOAD_FOLDER = os.path.join(working_dir, 'files_upload')
+PRIVATE_FOLER = os.path.join(working_dir, '__private')
 ALLOWED_EXTENSIONS = {'csv', 'xls', 'xlsx'}
 
 MyApp = Flask(__name__)
@@ -197,7 +197,7 @@ def digits():
             score = regressor.score(X_test, y_test)
             print(f"{score=}")
             #Sauvegarde sur disque pour réutilisation
-            save = open("./__private/model.pkl", "wb")
+            save = open(os.path.join(PRIVATE_FOLER, "model.pkl"), "wb")
             pickle.dump(regressor, save)
             save.close()
             return render_template("ml_digits.html")
@@ -214,13 +214,13 @@ def digits():
                     img.save(buf, 'jpeg')
                     displayable = base64.b64encode(buf.getvalue()).decode()
                     predictible = np.array(img).reshape(1,-1)
-                    regressor = pickle.load(open("./__private/model.pkl", "rb"))
+                    regressor = pickle.load(open(os.path.join(PRIVATE_FOLER, "model.pkl"), "rb"))
                     prediction = regressor.predict(predictible)
                     proba = regressor.predict_proba(predictible)
                 return render_template("ml_digits.html", message = "OK", objects = (displayable, prediction[0], proba[0,prediction[0]] * 100))
             return render_template("ml_digits.html", message = "OK")
     #Affichage initial de la page : a-t-on déjà un modèle entrainé ?
-    if os.path.exists("./__private/model.pkl"):
+    if os.path.exists(os.path.join(PRIVATE_FOLER, "model.pkl")):
         flash("Modèle chargé, prêt à être utilisé !")
         return render_template("ml_digits.html", message = "OK")
     else: #On entraine un nouveau modèle
@@ -232,10 +232,10 @@ def get_image():
     image_b64 = request.values['imageBase64']
     image_data = re.sub('^data:image/.+;base64,', '', image_b64)
     image_data = base64.b64decode(image_data)
-    with open("./__private/out.png", "wb") as out_file:
+    with open(os.path.join(PRIVATE_FOLER, "out.png"), "wb") as out_file:
         out_file.write(image_data)
 
-    img = cv2.imread('./__private/out.png', cv2.IMREAD_UNCHANGED)
+    img = cv2.imread(os.path.join(PRIVATE_FOLER, "out.png"), cv2.IMREAD_UNCHANGED)
     #Convert to gray scale
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     #Resize image to fit the model
@@ -243,9 +243,9 @@ def get_image():
     width = int(img.shape[1] * scale_percent / 100)
     height = int(img.shape[0] * scale_percent / 100)
     resized = cv2.resize(img, (width, height), interpolation = cv2.INTER_AREA)
-    cv2.imwrite('./__private/resized.png', resized)
+    cv2.imwrite(os.path.join(PRIVATE_FOLER, "resized.png"), resized)
     image_np = np.array(resized).reshape(1,-1)
-    regressor = pickle.load(open("./__private/model.pkl", "rb"))
+    regressor = pickle.load(open(os.path.join(PRIVATE_FOLER,"model.pkl"), "rb"))
     prediction = regressor.predict(image_np)[0]
     proba = regressor.predict_proba(image_np)
     print(f"{prediction=}, proba={proba[0,prediction]}")
